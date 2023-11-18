@@ -62,6 +62,17 @@ import keras
 import tensorflow as tf
 import shutil
 import random
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import splitfolders
+from sklearn.metrics import confusion_matrix
+import pandas as pd
+import matplotlib.pyplot as plt
+import keras
+from sklearn.metrics import classification_report
+import seaborn as sns
+from tensorflow.keras.models import load_model
 
 # Set random seeds for reproducibility
 np.random.seed(42)
@@ -118,13 +129,10 @@ model_path = os.path.join(project_path,'Model')
 
 model_name
 
-import splitfolders
 input_folder = "/content/Data2/"
 splitfolders.ratio(input_folder, output='dataset',seed=42,ratio=(.7,.2,.1),group_prefix=None)
 
-import tensorflow as tf
-from tensorflow.keras import layers, models
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
 
 img_height = 128
 img_width = img_height
@@ -193,10 +201,7 @@ print(f'Test accuracy: {test_acc}')
 model.save(f'{model_path}{model_name}.keras')
 model.save(f'{model_path}{model_name}.h5')
 
-from sklearn.metrics import confusion_matrix
 
-import keras
-from sklearn.metrics import classification_report
 
 predictions = model.predict(X_test, batch_size=batch_size)
 y_pred_class = np.argmax(predictions, axis=1)
@@ -204,8 +209,7 @@ y_pred_class_hot = keras.utils.to_categorical(y_pred_class,num_classes)
 cm = confusion_matrix(np.argmax(y_test,axis=1), np.argmax(predictions,axis=1), labels=np.arange(num_classes))
 clr = classification_report(np.argmax(y_test,axis=1), np.argmax(predictions,axis=1), labels=np.arange(num_classes), target_names=class_names)
 
-import pandas as pd
-import matplotlib.pyplot as plt
+
 
 err_hist = history.history
 pd.DataFrame(err_hist).plot(figsize=(8, 5))
@@ -213,7 +217,7 @@ plt.grid(True)
 
 plt.show()
 
-import seaborn as sns
+
 
 plt.figure(figsize=(4,4))
 sns.heatmap(cm, annot=True, fmt='g', vmin=0, cmap='Blues', cbar=False)
@@ -226,10 +230,8 @@ plt.savefig('Confusion Matrix55.png')
 plt.show()
 print("Classification Report:\n----------------------\n", clr)
 
-from google.colab import drive
 drive.mount('/content/drive')
 
-from tensorflow.keras.models import load_model
 
 # Load the saved model
 loaded_model = load_model(f'{model_path}{model_name}.h5')
@@ -252,7 +254,6 @@ df.plot(figsize=(8, 5))
 plt.grid(True)
 plt.show()
 
-import seaborn as sns
 
 plt.figure(figsize=(4,4))
 sns.heatmap(cm, annot=True, fmt='g', vmin=0, cmap='Blues', cbar=False)
